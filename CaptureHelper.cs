@@ -42,7 +42,7 @@ namespace ScreenCapture
         /// <param name="image1">图片1路径</param>
         /// <param name="image2">图片2路径</param>
         /// <returns>均方根色差</returns>
-        private static double ColorDifference(string image1,string image2)
+        public static double ColorDifference(string image1,string image2)
         {
             Mat mat1 = new Mat(image1);
             Mat mat2 = new Mat(image2);
@@ -50,27 +50,11 @@ namespace ScreenCapture
             {
                 throw new ArgumentException("Images must have the same size and type.");
             }
-            Mat lab1 = new Mat();
-            Mat lab2 = new Mat();
-            Cv2.CvtColor(mat1, lab1, ColorConversionCodes.BGR2Lab);
-            Cv2.CvtColor(mat2, lab2, ColorConversionCodes.BGR2Lab);
-            double sum = 0.0;
-            int rows = lab1.Rows;
-            int cols = lab1.Cols * lab1.Channels();
-            for(int i = 0;i<rows;i++)
-            {
-                var row1 = lab1.Row(i);
-                var row2 = lab2.Row(i);
-                for(int j = 0;i<cols;j+=3)
-                {
-                    double dL = row1.At<byte>(0,j)-row2.At<byte>(0,j);
-                    double dA = row1.At<byte>(0, j + 1) - row2.At<byte>(0, j + 1);
-                    double dB = row1.At<byte>(0, j + 2) - row2.At<byte>(0, j + 2);
-                    sum += dL * dL + dA * dA + dB * dB;
-                }
-            }
-            double mse = sum / (lab1.Rows * lab1.Cols);
-            return Math.Sqrt(mse); //Lab空间的均方根色差
+            Mat diff = new Mat();
+            Cv2.Absdiff(mat1,mat2,diff);
+            Scalar mean = Cv2.Mean(diff);
+            double va = (mean[0]+mean[1]+mean[2])/3.0;
+            return va;
         }
 
 

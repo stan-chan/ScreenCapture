@@ -27,7 +27,7 @@ namespace ScreenCapture
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CaptureHelper.CaptureFullScreen();
+           var value =  CaptureHelper.ColorDifference("Image1.png","Image2.png");
         }
     }
 }
