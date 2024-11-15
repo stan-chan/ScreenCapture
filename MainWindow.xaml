@@ -6,7 +6,23 @@
         xmlns:local="clr-namespace:ScreenCapture"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <Button Content="Test" Width="100" Height="30" Click="Button_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Vision Test"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Name="btnTest" Content="Test" Click="btnTest_Click"/>
+        </StackPanel>
+        <ListView Grid.Row="2" Name="lvLog"/>
     </Grid>
 </Window>

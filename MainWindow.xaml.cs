@@ -20,14 +20,30 @@ namespace ScreenCapture
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static LogEvent LogEvent = new LogEvent();
         public MainWindow()
         {
             InitializeComponent();
+            LogEvent.AddEventHandler += AddLog;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           var value =  CaptureHelper.ColorDifference("Image1.png","Image2.png");
+            
+           //var value =  CaptureHelper.ColorDifference("Image1.png","Image2.png");
+        }
+
+        private void btnTest_Click(object sender, RoutedEventArgs e)
+        {
+            CaptureHelper.GetCircleCount();
+        }
+
+        private void AddLog(object sender, LogEventArgs e)
+        {
+            Dispatcher.Invoke(new Action(() =>
+            {
+                lvLog.Items.Add(e.Message);
+            }));
         }
     }
 }

@@ -72,6 +72,63 @@ namespace ScreenCapture
                 encoder.Save(fileStream);
             }
         }
+
+
+        public static void GetCircleCount()
+        {
+            // 读取图像
+            Mat image = Cv2.ImRead("Image/red6_white1.jpg", ImreadModes.Color);
+            var width = image.Width;
+            var height = image.Height;
+            // 定义 ROI 区域
+            OpenCvSharp.Rect roi = new OpenCvSharp.Rect(1800, 1100, 500, 500); // 起点 (50, 50)，宽 200，高 150
+
+            // 提取 ROI 子区域
+            Mat roiImg = new Mat(image, roi);
+            // 将图像转换为灰度图
+            Mat grayImage = new Mat();
+            Cv2.CvtColor(roiImg, grayImage, ColorConversionCodes.BGR2GRAY);
+
+            // 对图像进行高斯模糊，以减少噪声
+            Mat blurredImage = new Mat();
+            Cv2.GaussianBlur(grayImage, blurredImage, new OpenCvSharp.Size(9, 9), 2, 2);
+
+            // 使用霍夫圆变换检测圆形
+            CircleSegment[] circles = Cv2.HoughCircles(
+                blurredImage, 
+                HoughModes.Gradient, 
+                1, //累加器分辨率
+                50, //圆心之间最小距离
+                100, //Canny边缘检测高阈值
+                20, //检测阈值
+                5, //最小半径
+                100//最大半径
+                );
+
+            // 绘制检测到的圆形并计数
+            int circleCount = 0;
+            if (circles.Length > 0)
+            {
+                foreach (var circle in circles)
+                {
+                    // 绘制圆圈
+                    Cv2.Circle(blurredImage, new OpenCvSharp.Point(circle.Center.X, circle.Center.Y), (int)circle.Radius, new Scalar(0, 255, 0), 2);
+                    // 绘制圆心
+                    Cv2.Circle(blurredImage, new OpenCvSharp.Point(circle.Center.X, circle.Center.Y), 3, new Scalar(0, 0, 255), 3);
+                    circleCount++;
+                }
+            }
+
+            MainWindow.LogEvent.Add($"Detected Circles: {circleCount}");
+            // 输出检测到的圆圈数量
+            Console.WriteLine($"Detected Circles: {circleCount}");
+            Cv2.ImWrite("Image/red6_white1_R.jpg",blurredImage);
+            // 显示结果图像
+            Cv2.ImShow($"Detected Circles Count: {circleCount}", blurredImage);
+
+
+            //Cv2.ResizeWindow("Detected Circles", 1200,800);
+        }
     }
 }
 
