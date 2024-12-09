@@ -35,7 +35,13 @@ namespace ScreenCapture
 
         private void btnTest_Click(object sender, RoutedEventArgs e)
         {
-            CaptureHelper.GetCircleCount();
+            DPIHelper.DPITest();
+            //CVHelper.ClassifyColorByBGR("Image/white1.jpg", out List<ImageLight> light3);
+            //CVHelper.ClassifyColorByBGR("Image/red6_white1.jpg",out List<ImageLight> light);
+            //CVHelper.ClassifyColorByBGR("Image/green.jpg", out List<ImageLight> light1);
+            //CVHelper.ClassifyColorByBGR("Image/red.jpg", out List<ImageLight> light2);
+
+            //CVHelper.ClassifyColorByBGR("Image/white6.jpg", out List<ImageLight> light4);
         }
 
         private void AddLog(object sender, LogEventArgs e)

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
         xmlns:local="clr-namespace:ScreenCapture"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -18,11 +19,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Vision Test"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Name="btnTest" Content="Test" Click="btnTest_Click"/>
         </StackPanel>
         <ListView Grid.Row="2" Name="lvLog"/>
+        <markdig:MarkdownViewer Grid.Row="3" Height="100"/>
     </Grid>
 </Window>
